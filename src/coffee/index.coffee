@@ -23,12 +23,26 @@ setInterval ->
 gameAction.playerJoin 0, x: 0, y: 0, Date.now()
 gameAction.playerMove 0, null, {x: 100, y: 100}, Date.now()
 
-gameDom.addEventListener 'click', (e) ->
-  gameAction.playerMove 0, null, {x: e.clientX, y: e.clientY}, Date.now()
+shiftPressed = false
+
+onClick = (e) ->
+  if shiftPressed
+    console.log "shiffee"
+  else
+    gameAction.playerMove 0, null, {x: e.clientX, y: e.clientY}, Date.now()
 
 onResize = ->
   renderer.resize renderer.view.offsetWidth, renderer.view.offsetHeight
 
+onKeyDown = (e) ->
+  shiftPressed = true if e.keyIdentifier is "Shift"
+
+onKeyUp = (e) ->
+  shiftPressed = false if e.keyIdentifier is "Shift"
+
+gameDom.addEventListener 'click', onClick
+document.addEventListener "keydown", onKeyDown
+document.addEventListener "keyup", onKeyUp
 window.addEventListener 'resize', onResize
 
 onResize()

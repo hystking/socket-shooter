@@ -3,6 +3,7 @@
 
 module.exports = (moves, timestamp) ->
   move = moves[findLastIndex moves, (move) -> timestamp > move.timestamp]
+  return x: 0, y: 0 unless move
   {from, to, speed, timestamp: moveTimestamp} = move
 
   dst = {}
