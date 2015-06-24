@@ -21,7 +21,6 @@ setInterval ->
 , 1000
 
 gameAction.playerJoin 0, x: 0, y: 0, Date.now()
-gameAction.playerMove 0, null, {x: 100, y: 100}, Date.now()
 
 shiftPressed = false
 
