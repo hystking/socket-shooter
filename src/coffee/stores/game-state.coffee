@@ -1,10 +1,10 @@
-{find, last} = require 'lodash'
+{find, findIndex, last} = require 'lodash'
 calcMove = require '../utils/calc-move'
 
 module.exports = class GameState extends require 'events'
-  constructor: ({@dispatcher}) ->
-    @players = []
-    @bullets = []
+  constructor: ({@players, @bullets, @dispatcher}) ->
+    @players ?= []
+    @bullets ?= []
 
     @dispatcher.on 'bullets.create', (id, playerId, from, to, timestamp) =>
       @bullets.push @_createBullet id, playerId
@@ -21,6 +21,7 @@ module.exports = class GameState extends require 'events'
 
     @dispatcher.on 'players.player-move', (id, from, to, timestamp) =>
       player = find @players, id: id
+      return unless player?
       from = calcMove player.state.moves, timestamp unless from?
       move =
         from: from
@@ -28,6 +29,9 @@ module.exports = class GameState extends require 'events'
         speed: player.speed
         timestamp: timestamp
       player.state.moves.push move
+
+    @dispatcher.on 'players.player-leave', (id) =>
+      @players.splice findIndex @players, id: id, 1
 
     @dispatcher.on 'players.player-die', (id, timestamp) =>
       player = find @players, id: id
@@ -44,6 +48,7 @@ module.exports = class GameState extends require 'events'
       player.state.shoots.push shoot
 
     @dispatcher.on 'players.create', (id) =>
+      return if (find @players, id: id)?
       @players.push @_createPlayer id
 
   _createPlayer: (id) ->

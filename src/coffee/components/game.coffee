@@ -1,5 +1,5 @@
 {Container} = require 'pixi.js'
-{find, findIndexOf} = require 'lodash'
+{find, indexOf, findIndexOf} = require 'lodash'
 
 PlayerComponent = require './player'
 
@@ -11,9 +11,10 @@ module.exports = class Splatwoon
 
   update: (time, gameState) ->
     #players
-
     for playerComponent in @playerComponents
-      @_removePlayerComponent playerComponent unless (find gameState.players, id: playerComponent.player.id)?
+      return unless playerComponent?
+      player = find gameState.players, id: playerComponent.playerId
+      @_removePlayerComponent playerComponent unless player?
 
     for player in gameState.players
       playerComponent = @_findOrCreatePlayerComponent player
@@ -22,13 +23,12 @@ module.exports = class Splatwoon
     for bullet in gameState.players
       playerComponent = @_findOrCreatePlayerComponent player
 
-  _removePlayerComponent: (playerComponent) ->
-    @pixiObject.removeChild playerComponent
+  _removePlayerComponent: (playerComponent) =>
+    @pixiObject.removeChild playerComponent.pixiObject
     @playerComponents.splice (indexOf @playerComponents, playerComponent), 1
 
-
   _findOrCreatePlayerComponent: (player) ->
-    playerComponent = find @playerComponents, (p) -> p.player.id is player.id
+    playerComponent = find @playerComponents, (p) -> p.playerId is player.id
     return playerComponent if playerComponent?
     playerComponent = new PlayerComponent player
     @playerComponents.push playerComponent

@@ -1,3 +1,6 @@
+socket = require "./utils/socket"
+{clone} = require "lodash"
+
 GameDispatcher = require './dispatchers/game'
 GameState = require './stores/game-state'
 GameAction = require './actions/game'
@@ -9,40 +12,44 @@ gameState = new GameState
   dispatcher: gameDispatcher
 gameAction = new GameAction
   dispatcher: gameDispatcher
+  socket: socket
 gameComponent = new GameComponent
-renderer = new Renderer 100, 100, transparent: true
 
+renderer = new Renderer 100, 100, transparent: true
 gameDom.appendChild renderer.view
 
 setInterval ->
   time = Date.now()
   gameComponent.update time, gameState
   renderer.render gameComponent.pixiObject
-, 1000
+, 16
 
-gameAction.playerJoin 0, x: 0, y: 0, Date.now()
-
-shiftPressed = false
+playerId = Math.random() * 10000 | 0
 
 onClick = (e) ->
-  if shiftPressed
-    console.log "shiffee"
-  else
-    gameAction.playerMove 0, null, {x: e.clientX, y: e.clientY}, Date.now()
+  gameAction.playerMove playerId, null, {x: e.clientX, y: e.clientY}, Date.now(), yes
 
 onResize = ->
   renderer.resize renderer.view.offsetWidth, renderer.view.offsetHeight
 
-onKeyDown = (e) ->
-  shiftPressed = true if e.keyIdentifier is "Shift"
-
-onKeyUp = (e) ->
-  shiftPressed = false if e.keyIdentifier is "Shift"
-
 gameDom.addEventListener 'click', onClick
-document.addEventListener "keydown", onKeyDown
-document.addEventListener "keyup", onKeyUp
 window.addEventListener 'resize', onResize
+
+socket.on "ping", ->
+  console.log "pong"
+
+socket.on "sync", (players, bullets) ->
+  console.log players
+  gameState.players = players
+  gameState.bullets = bullets
+
+socket.on "playerMove", (id, from, to, timestamp) ->
+  console.log "move"
+  gameAction.playerMove id, from, to, timestamp
+
+socket.on "init", (timeOffset) ->
+  gameAction.playerJoin playerId, x: 0, y: 0, Date.now(), yes
+  console.log playerId
 
 onResize()
 

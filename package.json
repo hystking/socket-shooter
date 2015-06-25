@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "start": "coffee app.coffee",
     "watch": "gulp watch",
     "build": "NODE_ENV=production gulp build",
     "sprite": "gulp sprite",
@@ -8,13 +9,14 @@
   "devDependencies": {
     "bower": "latest",
     "browserify": "latest",
-    "coffee-script": "latest",
+    "coffee-script": "^1.9.3",
     "coffeeify": "latest",
     "colors": "latest",
     "connect": "latest",
     "connect-livereload": "latest",
     "del": "latest",
     "eventemitter2": "^0.4.14",
+    "express": "^4.13.0",
     "glob": "latest",
     "gulp": "latest",
     "gulp-if": "latest",
@@ -40,6 +42,7 @@
     "require-dir": "latest",
     "run-sequence": "latest",
     "serve-static": "latest",
+    "socket.io": "^1.3.5",
     "stylus": "latest",
     "through2": "latest",
     "yargs": "latest"
