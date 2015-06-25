@@ -13,6 +13,7 @@ module.exports = class Client
     @gameAction = new GameAction
       dispatcher: @gameDispatcher
       socket: @socket
+      gameState: @gameState
     @gameComponent = new GameComponent
     @renderer = new Renderer 100, 100, transparent: true
     @dom.appendChild @renderer.view
@@ -24,6 +25,7 @@ module.exports = class Client
     @socket.on "init", @_onSocketInit
     @socket.on "sync", @_onSocketSync
     @socket.on "playerMove", @_onSocketPlayerMove
+    @socket.on "playerJoin", @_onSocketPlayerJoin
     
     @_onResize()
     @startUpdate()
@@ -49,6 +51,9 @@ module.exports = class Client
 
   _onSocketPlayerMove: (id, from, to, timestamp) =>
     @gameAction.playerMove id, from, to, timestamp
+
+  _onSocketPlayerJoin: (id, position, timestamp) =>
+    @gameAction.playerJoin id, position, timestamp
 
   _onSocketInit: (id) =>
     @playerId = id

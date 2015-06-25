@@ -1,5 +1,9 @@
 module.exports = class GameAction
-  constructor: ({@dispatcher, @socket}) ->
+  constructor: ({@dispatcher, @socket, @gameState}) ->
+
+  sync: (target) ->
+    target ?= @socket
+    target.emit "sync", @gameState.players, @gameState.bullets
 
   playerShoot: (id, playerId, from, to, timestamp, broadcast = no) ->
     @dispatcher.emit 'bullets.create', id, playerId
