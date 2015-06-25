@@ -15,15 +15,14 @@ gameAction = new GameAction
   dispatcher: gameDispatcher
   socket: io.to "lobby"
 
+idMaster = 0
+
 io.on "connection", (socket) ->
   console.log "joinee"
-  _id = -1
+  _id = idMaster
+  idMaster = idMaster + 1
 
   socket.join "lobby"
-
-  socket.on "playerJoin", (id, position, timestamp) ->
-    _id = id
-    gameAction.playerJoin id, position, timestamp
 
   socket.on "playerMove", (id, from, to, timestamp) ->
     gameAction.playerMove id, from, to, timestamp, yes
@@ -32,7 +31,8 @@ io.on "connection", (socket) ->
     console.log "disconnect", _id
     gameAction.playerLeave _id
 
-  socket.emit "init"
+  gameAction.playerJoin _id, {x: 0, y: 0}, +new Date
+  socket.emit "init", _id
 
 setInterval ->
   console.log "players:", gameState.players.map (p) -> p.id

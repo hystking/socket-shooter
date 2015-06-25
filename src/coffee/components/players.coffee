@@ -11,7 +11,6 @@ module.exports = class Players
   update: (time, gameState) ->
     #players
     for playerComponent in @playerComponents
-      return unless playerComponent?
       player = find gameState.players, (p) -> p.id is playerComponent.playerId
       @_removePlayerComponent playerComponent unless player?
 
