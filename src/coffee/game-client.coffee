@@ -1,5 +1,3 @@
-socket = require "./utils/socket"
-
 GameDispatcher = require './dispatchers/game'
 GameState = require './stores/game-state'
 GameAction = require './actions/game'
@@ -8,21 +6,20 @@ Renderer = require './utils/renderer'
 
 module.exports = class Client
   constructor: ({@socket, @dom} = {}) ->
-    @socket ?= socket
-    @dom ?= gameDom
     @playerId = null
     @gameDispatcher = new GameDispatcher
     @gameState = new GameState
       dispatcher: @gameDispatcher
     @gameAction = new GameAction
       dispatcher: @gameDispatcher
-      socket: socket
+      socket: @socket
     @gameComponent = new GameComponent
     @renderer = new Renderer 100, 100, transparent: true
     @dom.appendChild @renderer.view
 
     @dom.addEventListener 'click', @_onClick
     window.addEventListener 'resize', @_onResize
+
     @socket.on "ping", -> console.log "pong"
     @socket.on "init", @_onSocketInit
     @socket.on "sync", @_onSocketSync
