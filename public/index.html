@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <!-- IE Setting-->
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <!-- favicon-->
+    <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="/favicon.ico">
+    <link rel="icon" type="image/vnd.microsoft.icon" href="/favicon.ico">
+    <!-- viewport-->
+    <meta name="viewport" content="width=device-width,initial-scale=0.5">
+    <!-- Meta Infomation-->
+    <title>ページタイトル</title>
+    <meta name="description" content="ディスクリプション">
+    <meta name="keywords" content="キーワード">
+    <!-- Facebook OGP-->
+    <meta name="og:title" content="ページタイトル">
+    <meta name="og:description" content="ディスクリプション">
+    <meta name="og:type" content="website">
+    <meta name="og:url" content="http://example.org/">
+    <meta name="og:image" content="http://example.org/img/ogp.jpg">
+    <meta name="og:site_name" content="ページタイトル">
+    <!-- Twitter Card-->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ページタイトル">
+    <meta name="twitter:description" content="ディスクリプション">
+    <meta name="twitter:image:src" content="http://example.org/img/ogp.jpg">
+    <link href="css/index.css" rel="stylesheet">
+  </head>
+  <body>
+    <main class="peran">
+      <section class="game">
+        <div id="gameDom"></div>
+      </section>
+    </main>
+    <!-- Facebook--><div id="fb-root"></div>
+    <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/ja_JP/sdk.js#xfbml=1&version=v2.3&appId=1022102591141191";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+    <!-- Twitter--><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="js/index.js"></script>
+  </body>
+</html>

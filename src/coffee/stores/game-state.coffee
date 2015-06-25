@@ -31,7 +31,7 @@ module.exports = class GameState extends require 'events'
       player.state.moves.push move
 
     @dispatcher.on 'players.player-leave', (id) =>
-      @players.splice findIndex @players, id: id, 1
+      @players.splice (findIndex @players, id: id), 1
 
     @dispatcher.on 'players.player-die', (id, timestamp) =>
       player = find @players, id: id

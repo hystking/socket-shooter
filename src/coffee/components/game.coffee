@@ -13,7 +13,7 @@ module.exports = class Splatwoon
     #players
     for playerComponent in @playerComponents
       return unless playerComponent?
-      player = find gameState.players, id: playerComponent.playerId
+      player = find gameState.players, (p) p.id is playerComponent.playerId
       @_removePlayerComponent playerComponent unless player?
 
     for player in gameState.players
@@ -28,6 +28,7 @@ module.exports = class Splatwoon
     @playerComponents.splice (indexOf @playerComponents, playerComponent), 1
 
   _findOrCreatePlayerComponent: (player) ->
+
     playerComponent = find @playerComponents, (p) -> p.playerId is player.id
     return playerComponent if playerComponent?
     playerComponent = new PlayerComponent player
