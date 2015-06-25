@@ -10,7 +10,7 @@ module.exports = class Players
 
   update: (time, gameState) ->
     #players
-    for playerComponent in @playerComponents
+    for playerComponent in @playerComponents by -1
       player = find gameState.players, (p) -> p.id is playerComponent.playerId
       @_removePlayerComponent playerComponent unless player?
 
