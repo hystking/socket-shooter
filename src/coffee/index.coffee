@@ -1,3 +1,3 @@
-Client = require "./client"
+GameClient = require "./game-client"
 
-client = new Client
+gameClient = new GameClient
