@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "coffee app.coffee",
+    "start": "coffee app.coffee & gulp watch",
     "watch": "gulp watch",
     "build": "NODE_ENV=production gulp build",
     "sprite": "gulp sprite",
