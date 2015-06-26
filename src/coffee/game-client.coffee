@@ -44,7 +44,6 @@ module.exports = class Client
     @gameState.bullets = bullets
 
   _onClick: (e) =>
-    console.log "click", @playerId
     @gameAction.playerMove @playerId, null, {x: e.clientX, y: e.clientY}, Date.now(), yes
 
   _onResize: =>
