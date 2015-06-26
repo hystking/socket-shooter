@@ -26,6 +26,7 @@ module.exports = class Client
     @socket.on "sync", @_onSocketSync
     @socket.on "playerMove", @_onSocketPlayerMove
     @socket.on "playerJoin", @_onSocketPlayerJoin
+    @socket.on "playerLeave", @_onSocketPlayerLeave
     
     @_onResize()
     @startUpdate()
@@ -54,6 +55,9 @@ module.exports = class Client
 
   _onSocketPlayerJoin: (id, position, timestamp) =>
     @gameAction.playerJoin id, position, timestamp
+  
+  _onSocketPlayerLeave: (id) =>
+    @gameAction.playerLeave id
 
   _onSocketInit: (id) =>
     @playerId = id

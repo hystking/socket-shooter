@@ -11,7 +11,7 @@ module.exports = class GameServerClient
   
   _onDisconnect: (id) =>
     console.log "disconnect", @id
-    @gameAction.playerLeave @id
+    @gameAction.playerLeave @id, yes
     @socket.disconnect true
     @socket = null
     @gameAction = null

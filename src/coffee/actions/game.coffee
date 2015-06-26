@@ -18,8 +18,10 @@ module.exports = class GameAction
   playerDie: (id, who) ->
     @dispatcher.emit 'players.player-die', id
   
-  playerLeave: (id) ->
+  playerLeave: (id, broadcast = no) ->
     @dispatcher.emit 'players.player-leave', id
+    if broadcast
+      @socket.emit "playerLeave", id
 
   playerJoin: (id, position, timestamp, broadcast = no) ->
     @dispatcher.emit 'players.create', id
