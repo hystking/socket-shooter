@@ -11,7 +11,13 @@ module.exports = class GameAction
     @dispatcher.emit 'players.player-shoot', playerId, from, to, timestamp
 
   playerMove: (id, from, to, timestamp, broadcast = no) ->
-    @dispatcher.emit 'players.player-move', id, from, to, timestamp
+    @_playerMove id, from, to, timestamp, broadcast, no
+  
+  forcePlayerMove: (id, from, to, timestamp, broadcast = no) ->
+    @_playerMove id, from, to, timestamp, broadcast, yes
+
+  _playerMove: (id, from, to, timestamp, broadcast, force) ->
+    @dispatcher.emit 'players.player-move', id, from, to, timestamp, force
     if broadcast
       @socket.emit "playerMove", id, from, to, timestamp
 

@@ -19,16 +19,25 @@ module.exports = class GameState extends require 'events'
         timestamp: timestamp
       bullet.state.moves.push move
 
-    @dispatcher.on 'players.player-move', (id, from, to, timestamp) =>
+    @dispatcher.on 'players.player-move', (id, from, to, timestamp, overwrite = no) =>
       player = find @players, id: id
       return unless player?
+      sameTimestampMove = find player.state.moves, timestamp: timestamp
       from = calcMove player.state.moves, timestamp unless from?
+      if sameTimestampMove?
+        return unless overwrite
+        sameTimestampMove.from = from
+        sameTimestampMove.to = to
+        sameTimestampMove.speed = player.speed
+        sameTimestampMove.timestamp = timestamp
+        return
       move =
         from: from
         to: to
         speed: player.speed
         timestamp: timestamp
       player.state.moves.push move
+      player.state.moves.sort (a, b) -> a.timestamp - b.timestamp
 
     @dispatcher.on 'players.player-leave', (id) =>
       @players.splice (findIndex @players, id: id), 1

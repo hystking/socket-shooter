@@ -28,8 +28,8 @@ module.exports = class GameServer
     @gameAction.sync()
 
   _onConnection: (socket) =>
-    console.log "joinee"
     @idMaster += 1
+    console.log "join", @idMaster
     serverClient = new GameServerClient
       id: @idMaster
       gameAction: @gameAction
