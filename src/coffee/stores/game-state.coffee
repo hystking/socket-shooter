@@ -42,11 +42,18 @@ module.exports = class GameState extends require 'events'
     @dispatcher.on 'players.player-leave', (id) =>
       @players.splice (findIndex @players, id: id), 1
 
-    @dispatcher.on 'players.player-die', (id, timestamp) =>
+    @dispatcher.on 'players.player-damage', (id, damageObjectId, timestamp) =>
       player = find @players, id: id
-      die =
+      damage =
         timestamp: timestamp
-      player.state.dies.push die
+        damageObjectId: damageObjectId
+      player.state.damages.push damage
+    
+    @dispatcher.on 'players.player-clear-damage', (id, damageObjectId) =>
+      # This player does not damage by the damageObject!
+      player = find @players, id: id
+      damages = where player.state.damages damageObjectId: damageObjectId
+      remove player.state.damages, (damage) -> contains damages, damage
 
     @dispatcher.on 'players.player-shoot', (id, from, to, timestamp) =>
       player = find @players, id: id
@@ -66,7 +73,7 @@ module.exports = class GameState extends require 'events'
     state:
       moves: []
       shoots: []
-      dies: []
+      damages: []
   
   _createBullet: (id, playerId) ->
     id: id
