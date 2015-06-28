@@ -13,7 +13,6 @@ module.exports = class Client
     @gameAction = new GameAction
       dispatcher: @gameDispatcher
       socket: @socket
-      gameState: @gameState
     @gameComponent = new GameComponent
     @renderer = new Renderer 100, 100, transparent: true
     @dom.appendChild @renderer.view

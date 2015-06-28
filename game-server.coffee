@@ -13,7 +13,6 @@ module.exports = class GameServer
       dispatcher: @gameDispatcher
     @gameAction = new GameAction
       dispatcher: @gameDispatcher
-      gameState: @gameState
       socket: @room
 
     @room.on "connection", @_onConnection
@@ -25,7 +24,7 @@ module.exports = class GameServer
 
   _sync: =>
     console.log "players:", @gameState.players.map (p) -> p.id
-    @gameAction.sync()
+    @gameAction.sync @gameState
 
   _onConnection: (socket) =>
     @idMaster += 1
@@ -34,3 +33,4 @@ module.exports = class GameServer
       id: @idMaster
       gameAction: @gameAction
       socket: socket
+    @_sync()
