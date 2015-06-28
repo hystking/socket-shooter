@@ -1,4 +1,4 @@
-{find, findIndex, last} = require 'lodash'
+{find, findIndex, last, remove} = require 'lodash'
 calcMove = require '../utils/calc-move'
 
 module.exports = class GameState extends require 'events'
@@ -40,7 +40,7 @@ module.exports = class GameState extends require 'events'
       player.state.moves.sort (a, b) -> a.timestamp - b.timestamp
 
     @dispatcher.on 'players.player-leave', (id) =>
-      @players.splice (findIndex @players, id: id), 1
+      remove @players, (player) -> player.id is id
 
     @dispatcher.on 'players.player-damage', (id, damageObjectId, timestamp) =>
       player = find @players, id: id

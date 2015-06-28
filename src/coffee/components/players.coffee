@@ -1,5 +1,5 @@
 {Container} = require 'pixi.js'
-{find, indexOf, findIndexOf} = require 'lodash'
+{find, indexOf, findIndexOf, remove} = require 'lodash'
 
 PlayerComponent = require './player'
 
@@ -23,7 +23,7 @@ module.exports = class Players
 
   _removePlayerComponent: (playerComponent) =>
     @pixiObject.removeChild playerComponent.pixiObject
-    @playerComponents.splice (indexOf @playerComponents, playerComponent), 1
+    remove @playerComponents, (_playerComponent) -> _playerComponent is playerComponent
 
   _findOrCreatePlayerComponent: (player) ->
     playerComponent = find @playerComponents, (p) -> p.playerId is player.id

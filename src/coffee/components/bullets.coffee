@@ -24,7 +24,7 @@ module.exports = class Bullets
 
   _removeBulletComponent: (bulletComponent) =>
     @pixiObject.removeChild bulletComponent.pixiObject
-    @bulletComponents.splice (indexOf @bulletComponents, bulletComponent), 1
+    remove @bulletComponents, (_bulletComponent) -> _bulletComponent is bulletComponent
 
   _findOrCreateBulletComponent: (bullet) ->
     bulletComponent = find @bulletComponents, (p) -> p.bulletId is bullet.id
